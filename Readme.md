@@ -1,7 +1,7 @@
-# Личный проект «Кэндишоп» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Кэндишоп» [![Build status][travis-image]][travis-url]
 
 * Студент: [Vadim Gorokhov](https://up.htmlacademy.ru/javascript/15/user/699535).
-* Наставник: `Неизвестно`.
+* Наставник: `Константин Мамаев`.
 
 ---
 
@@ -50,3 +50,4 @@ git clone SSH-адрес_вашего_форка
 
 [travis-image]: https://travis-ci.org/htmlacademy-javascript/699535-candyshop.svg?branch=master
 [travis-url]: https://travis-ci.org/htmlacademy-javascript/699535-candyshop
+
