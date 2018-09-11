@@ -1,7 +1,7 @@
 "use strict";
 
 //Заносим  описание в массивыи переменные.
-var name = [
+var NAMES = [
   "Чесночные сливки",
  "Огуречный педант",
   "Молочная хрюша",
@@ -32,7 +32,7 @@ var name = [
   "Острый язычок"
 ];
 
-var picture = [
+var PICTURES = [
   "img/cards/gum-cedar.jpg",
   "img/cards/gum-chile.jpg",
   "img/cards/gum-eggplant.jpg",
@@ -63,28 +63,28 @@ var picture = [
   "img/cards/soda-russian.jpg"
 ];
 
-var minAmount = 0;
-var maxAmount = 20;
+var MIN_AMOUNT = 0;
+var MAX_AMOUNT  = 20;
 
-var minPrice = 100;
-var maxPrice = 1500;
+var MIN_PRICE = 100;
+var MAX_PRICE = 1500;
 
-var minWeight = 30;
-var maxWeight = 300;
+var MIN_WEIGHT = 30;
+var MAX_WEIGHT = 300;
 
-var minValue = 1;
-var maxValue = 5;
+var MIN_VALUE = 1;
+var MAX_VALUE = 5;
 
-var minNumber = 10;
-var maxNumber = 900;
+var MIN_NUMBER = 10;
+var MAX_NUMBER = 900;
 
-var sugarFalse = 0;
-var sugarTrue = 1;
+var SUGAR_FALSE = 0;
+var SUGAR_TRUE = 1;
 
-var minEnergy = 70;
-var maxEnergy = 500;
+var MIN_ENERGY = 70;
+var MAX_ENERGY = 500;
 
-var contents = [
+var CONTENTS = [
   "молоко",
   "сливки",
   "вода",
@@ -151,8 +151,8 @@ return shuffledItems.slice(0,getRandomNumber(0, shuffledItems.length));
 
 var generateObject = function () {
     return {
-      name: getRandomItem(name),
-      picture: getRandomItem(picture),
+      name: getRandomItem(names),
+      picture: getRandomItem(pictures),
       amount: getRandomNumber(minAmount, maxAmount),
       price: getRandomNumber(minPrice, maxPrice),
       weight: getRandomNumber(minWeight, maxWeight),
@@ -168,11 +168,12 @@ var generateObject = function () {
     };
 
     // Создаем функцию, которая выводит массив объектов.
+var COUNT_ITEMS = 26;
 
 var generateObjects = function () {
   var objects = [];
-  for (i=0; i < 26; i++){
-    objects.push(generateObjects());
+  for (i=0; i < COUNT_ITEMS; i++){
+    objects.push(generateObject());
   }
 return objects;
 };
@@ -259,6 +260,6 @@ return cardElement;
 
 // Пишем цикл.
 var fragment = document.createDocumentFragment();
-for(i = 0; i < 26; i++){
+for(i = 0; i < COUNT_ITEMS; i++){
   fragment.appendChild()
 }
