@@ -151,28 +151,28 @@ return shuffledItems.slice(0,getRandomNumber(0, shuffledItems.length));
 
 var generateObject = function () {
     return {
-      name: getRandomItem(names),
-      picture: getRandomItem(pictures),
-      amount: getRandomNumber(minAmount, maxAmount),
-      price: getRandomNumber(minPrice, maxPrice),
-      weight: getRandomNumber(minWeight, maxWeight),
+      name: getRandomItem(NAMES),
+      picture: getRandomItem(PICTURES),
+      amount: getRandomNumber(MIN_AMOUNT, MAX_AMOUNT),
+      price: getRandomNumber(MIN_PRICE, MAX_PRICE),
+      weight: getRandomNumber(MIN_WEIGHT, MAX_WEIGHT),
       rating: {
-        value: getRandomNumber(minValue, maxValue),
-        number: getRandomNumber(minNumber, maxNumber)
+        value: getRandomNumber(MIN_VALUE, MAX_VALUE),
+        number: getRandomNumber(MIN_NUMBER, MAX_NUMBER)
       },
       nutritionFacts: {
-        sugar: getRandomNumber(sugarFalse, sugarTrue),
-        energy: getRandomNumber(minEnergy, maxEnergy),
-        contents: getRandomContains(contents).join(",")
+        sugar: getRandomNumber(SUGAR_FALSE, SUGAR_TRUE),
+        energy: getRandomNumber(MIN_ENERGY, MAX_ENERGY),
+        contents: getRandomContains(CONTENTS).join(",")
       }
     };
-
+  }
     // Создаем функцию, которая выводит массив объектов.
 var COUNT_ITEMS = 26;
 
 var generateObjects = function () {
   var objects = [];
-  for (i=0; i < COUNT_ITEMS; i++){
+  for (var i=0; i < COUNT_ITEMS; i++){
     objects.push(generateObject());
   }
 return objects;
@@ -190,7 +190,7 @@ catalogLoad.classList.add("visually-hidden");
 
 var catalogCardsTemplate = document.querySelector('#card').content.querySelector('.catalog__card');
 
-var candyCard = function (CARD){
+var createСandyCard = function (card){
 
   var cardElement = catalogCardsTemplate.cloneNode(true);
 
@@ -216,7 +216,8 @@ if (amount >= 5 ){
 cardTitle.textContent = name;
 
 // img
-//cardImg
+cardImg.setAttribute("src", "picture");
+cardImg.setAttribute("alt", "name");
 
 //Price
 cardPrice.textContent = price;
@@ -253,13 +254,68 @@ if(nutritionFacts.sugar == true){
   cardCharacteristic.textContent = "Без сахара." + nutritionFacts.energy + "ккал";
 }
 
-cardComposition.textContent = "nutritionFacts.contents";
+cardComposition.textContent = nutritionFacts.contents;
 
 return cardElement;
 };
 
 // Пишем цикл.
 var fragment = document.createDocumentFragment();
-for(i = 0; i < COUNT_ITEMS; i++){
-  fragment.appendChild()
-}
+
+var objects = generateObjects();
+objects.forEach(function(obj) {
+  fragment.appendChild(createСandyCard(obj));
+});
+catalogCards.appendChild(fragment);
+
+
+// Создаем массив для корзины
+var ORDER_ITEMS = 3;
+
+var generateOrderObjects = function () {
+  var orders = [];
+  for (var i=0; i < ORDER_ITEMS; i++){
+    orders.push(generateObject());
+  }
+return orders;
+};
+
+// Находим template для корзины
+var orderCardsTemplate = document.querySelector('#card-order').content.querySelector('.goods_card');
+
+var createOrderElement = function (order){
+
+var orderElement = orderCardsTemplate.cloneNode(true);
+var orderTitle = document.querySelector(".card-order__title");
+var orderImg = document.querySelector(".card-order__img");
+var orderPrice = document.querySelector(".card-order__price");
+
+// название заказа
+orderTitle.textContent = "name";
+
+//картинка заказа
+orderImg.setAttribute("src", "picture");
+orderImg.setAttribute("alt", "name");
+
+//цена заказа
+orderPrice.textContent = price + " ₽";
+
+return orderElement;
+};
+
+//Пишем цикл
+var orderCards = document.querySelector('.goods__cards');
+
+objects.forEach(function(obj) {
+  fragment.appendChild(createOrderElement(obj));
+});
+orderCards.appendChild(fragment);
+
+//Удаляем goods__cards--empty и скрываем блок goods__card-empty
+orderCards.classList.remove("goods__cards--empty");
+
+var emptyOrderCard = document.querySelector(".goods__card-empty");
+
+emptyOrderCard.classList.add("visually-hidden");
+
+
