@@ -204,23 +204,23 @@ var createСandyCard = function (card){
   var cardComposition = document.querySelector(".card__composition-list");
 
  // amount
-if (amount >= 5 ){
+if (card.amount >= 5 ){
   cardElement.classList.add("card--in-stock");
-} else if(1 <= amount < 5) {
+} else if(1 <= card.amount < 5) {
   cardElement.classList.add("card--little");
-} else if (amount == 0){
+} else if (card.amount === 0){
   cardElement.classList.add("card--soon");
 }
 
 // name
-cardTitle.textContent = name;
+cardTitle.textContent = card.name;
 
 // img
-cardImg.setAttribute("src", "picture");
-cardImg.setAttribute("alt", "name");
+cardImg.setAttribute("src", card.picture);
+cardImg.setAttribute("alt", card.name);
 
 //Price
-cardPrice.textContent = price;
+cardPrice.textContent = card.price;
 var cardPriceSpan1 = document.createElement("span");
 cardPriceSpan1.classList.add("card__currency");
 cardPriceSpan1.textContent = " ₽";
@@ -228,33 +228,33 @@ cardPrice.appendChild(cardPriceSpan1);
 
 var cardPriceSpan2 = document.createElement("span");
 cardPriceSpan2.classList.add("card__weight");
-cardPriceSpan2.textContent = "/ " + weight + " Г";
+cardPriceSpan2.textContent = "/ " + card.weight + " Г";
 cardPrice.appendChild(cardPriceSpan2);
 
 //rating
-if (cardRating.rating.value == 1){
+if (card.rating.value === 1){
   cardRating.classList.add("stars__rating--one");
-}else if(cardRating.rating.value == 2){
+}else if(card.rating.value === 2){
   cardRating.classList.add("stars__rating--two");
-}else if(cardRating.rating.value == 3){
+}else if(card.rating.value === 3){
   cardRating.classList.add("stars__rating--three");
-}else if(cardRating.rating.value == 4){
+}else if(card.rating.value === 4){
   cardRating.classList.add("stars__rating--four");
-}else if(cardRating.rating.value == 5){
+}else if(card.rating.value === 5){
   cardRating.classList.add("stars__rating--five");
 }
 
 //count
-cardRatingCount.textContent = " rating.number ";
+cardRatingCount.textContent =  card.rating.number ;
 
 //sugar
-if(nutritionFacts.sugar == true){
-  cardCharacteristic.textContent = "Содержит сахар." + nutritionFacts.energy + "ккал";
+if(card.nutritionFacts.sugar == true){
+  cardCharacteristic.textContent = "Содержит сахар." + card.nutritionFacts.energy + "ккал";
 }else{
-  cardCharacteristic.textContent = "Без сахара." + nutritionFacts.energy + "ккал";
+  cardCharacteristic.textContent = "Без сахара." + card.nutritionFacts.energy + "ккал";
 }
 
-cardComposition.textContent = nutritionFacts.contents;
+cardComposition.textContent = card.nutritionFacts.contents;
 
 return cardElement;
 };
@@ -291,14 +291,14 @@ var orderImg = document.querySelector(".card-order__img");
 var orderPrice = document.querySelector(".card-order__price");
 
 // название заказа
-orderTitle.textContent = "name";
+orderTitle.textContent = order.name;
 
 //картинка заказа
-orderImg.setAttribute("src", "picture");
-orderImg.setAttribute("alt", "name");
+orderImg.setAttribute("src", order.picture);
+orderImg.setAttribute("alt", order.name);
 
 //цена заказа
-orderPrice.textContent = price + " ₽";
+orderPrice.textContent = order.price + " ₽";
 
 return orderElement;
 };
