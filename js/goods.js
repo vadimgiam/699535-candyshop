@@ -108,10 +108,14 @@ var CONTENTS = [
 //Создаем функцию,которая выводит случайное число в диапазоне
 
 var getRandomNumber = function (min, max){
-
 return min + Math.floor(Math.random() * (max - min));
-
 }
+
+//Создаем функцию, которая выводит случайное число и округляет его до ближайшего целого(для SUGAR)
+
+var getRandomRoundNumber = function (min, max){
+  return min + Math.round(Math.random() * (max - min));
+  }
 
 //Создаем функцию, которая генерирует случайные значения.
 
@@ -161,7 +165,7 @@ var generateObject = function () {
         number: getRandomNumber(MIN_NUMBER, MAX_NUMBER)
       },
       nutritionFacts: {
-        sugar: getRandomNumber(SUGAR_FALSE, SUGAR_TRUE),
+        sugar: getRandomRoundNumber(SUGAR_FALSE, SUGAR_TRUE),
         energy: getRandomNumber(MIN_ENERGY, MAX_ENERGY),
         contents: getRandomContains(CONTENTS).join(",")
       }
@@ -194,14 +198,14 @@ var createСandyCard = function (card){
 
   var cardElement = catalogCardsTemplate.cloneNode(true);
 
-  var cardTitle = document.querySelector(".card__title");
-  var cardImg = document.querySelector(".card__img");
-  var cardPrice = document.querySelector(".card__price");
-  var cardWeight = document.querySelector(".card__weight");
-  var cardRating = document.querySelector(".stars__rating");
-  var cardRatingCount = document.querySelector(".star__count");
-  var cardCharacteristic = document.querySelector(".card__characteristic");
-  var cardComposition = document.querySelector(".card__composition-list");
+  var cardTitle = cardElement.querySelector(".card__title");
+  var cardImg = cardElement.querySelector(".card__img");
+  var cardPrice = cardElement.querySelector(".card__price");
+  var cardWeight = cardElement.querySelector(".card__weight");
+  var cardRating = cardElement.querySelector(".stars__rating");
+  var cardRatingCount = cardElement.querySelector(".star__count");
+  var cardCharacteristic = cardElement.querySelector(".card__characteristic");
+  var cardComposition = cardElement.querySelector(".card__composition-list");
 
  // amount
 if (card.amount >= 5 ){
@@ -286,9 +290,9 @@ var orderCardsTemplate = document.querySelector('#card-order').content.querySele
 var createOrderElement = function (order){
 
 var orderElement = orderCardsTemplate.cloneNode(true);
-var orderTitle = document.querySelector(".card-order__title");
-var orderImg = document.querySelector(".card-order__img");
-var orderPrice = document.querySelector(".card-order__price");
+var orderTitle = orderElement.querySelector(".card-order__title");
+var orderImg = orderElement.querySelector(".card-order__img");
+var orderPrice = orderElement.querySelector(".card-order__price");
 
 // название заказа
 orderTitle.textContent = order.name;
