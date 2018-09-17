@@ -310,7 +310,8 @@ return orderElement;
 //Пишем цикл
 var orderCards = document.querySelector('.goods__cards');
 
-objects.forEach(function(obj) {
+var orders = generateOrderObjects();
+orders.forEach(function(obj) {
   fragment.appendChild(createOrderElement(obj));
 });
 orderCards.appendChild(fragment);
