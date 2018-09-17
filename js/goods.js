@@ -129,9 +129,10 @@ var getRandomItem = function (items) {
 
 var shuffle = function (array) {
 
-  var currentIndex = array.length,
-    temporaryValue, randomIndex;
-  while (currentIndex !== 0 ) {
+  var currentIndex = array.length;
+  var temporaryValue = 0;
+  var randomIndex = 0;
+  while (currentIndex !== 0) {
 
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
@@ -211,7 +212,7 @@ var createСandyCard = function (card) {
   // amount
   if (card.amount >= 5) {
     cardElement.classList.add('card--in-stock');
-  } else if (5 > card.amount >= 1) {
+  } else if (card.amount > 0 && card.amount < 5) {
     cardElement.classList.add('card--little');
   } else if (card.amount === 0) {
     cardElement.classList.add('card--soon');
