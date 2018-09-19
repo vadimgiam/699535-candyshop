@@ -325,7 +325,45 @@ emptyOrderCard.classList.add('visually-hidden');
 
 // Добавляем в избранное
 
-cardBtnFavorite.addEventListener('click', function (event) {
+/* cardBtnFavorite.addEventListener('click', function (event) {
   event.preventDefault();
   cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
+}); */
+
+// Добавление выбранного товара в корзину и управление товаром в корзине
+
+// Переключение вкладок в форме оформления заказа
+
+var btnPayCard = document.querySelector('#payment__card + .toggle-btn__label');
+var btnPayCash = document.querySelector('#payment__cash + .toggle-btn__label');
+var PayCardWrap = document.querySelector('.payment__card-wrap');
+var PayCashWrap = document.querySelector('.payment__cash-wrap');
+
+btnPayCard.addEventListener('click', function (event) {
+  event.preventDefault();
+  PayCardWrap.classList.remove('visually-hidden');
+  PayCashWrap.classList.add('visually-hidden');
+});
+
+btnPayCash.addEventListener('click', function (event) {
+  event.preventDefault();
+  PayCardWrap.classList.add('visually-hidden');
+  PayCashWrap.classList.remove('visually-hidden');
+});
+
+var btnDeliver = document.querySelector('#deliver__store + .toggle-btn__label');
+var btnCourier = document.querySelector('#deliver__courier + .toggle-btn__label');
+var PayDeliverWrap = document.querySelector('.deliver__store');
+var PayCourierWrap = document.querySelector('.deliver__courier');
+
+btnDeliver.addEventListener('click', function (event) {
+  event.preventDefault();
+  PayDeliverWrap.classList.remove('visually-hidden');
+  PayCourierWrap.classList.add('visually-hidden');
+});
+
+btnCourier.addEventListener('click', function (event) {
+  event.preventDefault();
+  PayDeliverWrap.classList.add('visually-hidden');
+  PayCourierWrap.classList.remove('visually-hidden');
 });
