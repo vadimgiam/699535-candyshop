@@ -203,11 +203,11 @@ var createСandyCard = function (card) {
   var cardTitle = cardElement.querySelector('.card__title');
   var cardImg = cardElement.querySelector('.card__img');
   var cardPrice = cardElement.querySelector('.card__price');
-  // var cardWeight = cardElement.querySelector('.card__weight');
   var cardRating = cardElement.querySelector('.stars__rating');
   var cardRatingCount = cardElement.querySelector('.star__count');
   var cardCharacteristic = cardElement.querySelector('.card__characteristic');
   var cardComposition = cardElement.querySelector('.card__composition-list');
+  var cardBtnFavorite = cardElement.querySelector('.card__btn-favorite');
 
   // amount
   if (card.amount >= 5) {
@@ -320,7 +320,12 @@ orderCards.appendChild(fragment);
 
 // Удаляем goods__cards--empty и скрываем блок goods__card-empty
 orderCards.classList.remove('goods__cards--empty');
-
 var emptyOrderCard = document.querySelector('.goods__card-empty');
-
 emptyOrderCard.classList.add('visually-hidden');
+
+// Добавляем в избранное
+
+cardBtnFavorite.addEventListener('click', function (event) {
+  event.preventDefault();
+  cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
+});
