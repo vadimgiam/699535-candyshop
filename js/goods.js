@@ -367,3 +367,52 @@ btnCourier.addEventListener('click', function (event) {
   PayDeliverWrap.classList.add('visually-hidden');
   PayCourierWrap.classList.remove('visually-hidden');
 });
+
+//  Первая фаза работы фильтра по цене
+
+var rangeBtnLeft = document.querySelector('.range__btn--left');
+var rangeBtnRight = document.querySelector('.range__btn--right');
+var rangeBtn = document.querySelector('.range__btn');
+var range = document.querySelector('.range');
+var rangeMinPrice = range.querySelector('.range__price--min');
+var rangeMaxPrice = range.querySelector('.range__price--max');
+
+
+function rangeMove(evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: 0
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    rangeBtn.style.top = (rangeBtn.offsetTop - shift.y) + 'px';
+    rangeBtn.style.left = (rangeBtn.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
+rangeBtnLeft.addEventListener('mousedown', rangeMove);
+rangeBtnRight.addEventListener('mousedown', rangeMove);
