@@ -209,6 +209,7 @@ var createСandyCard = function (card) {
   var cardComposition = cardElement.querySelector('.card__composition-list');
   var cardBtnFavorite = cardElement.querySelector('.card__btn-favorite');
 
+
   // amount
   if (card.amount >= 5) {
     cardElement.classList.add('card--in-stock');
@@ -262,11 +263,44 @@ var createСandyCard = function (card) {
 
   cardComposition.textContent = card.nutritionFacts.contents;
 
+ // Добавляем в избранное
+
+ cardBtnFavorite.addEventListener('click', function () {
+
+  cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
+
+});
+
+// Добавление выбранного товара в корзину и управление товаром в корзине
+
+var cardBtn = cardElement.querySelector('.card__btn');
+cardBtn.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  var foundOrderIndex = -1;
+  for (var i = 0; i < orderArr.length; i++) {
+    if (orderArr[i].name === card.name) {
+      foundOrderIndex = i;
+    }
+  }
+  if (foundOrderIndex === -1) {
+    var cardCopy = Object.assign({}, card);
+    cardCopy.orderedAmount = 1;
+    orderArr.push(cardCopy);
+  } else if (orderArr[foundOrderIndex].orderedAmount < card.amount) {
+    orderArr[foundOrderIndex].orderedAmount++;
+  }
+  renderOrders(orderArr);
+});
+
+
   return cardElement;
+
 };
 
 // Пишем цикл.
 var fragment = document.createDocumentFragment();
+
+var orderArr = [];
 
 var objects = generateObjects();
 objects.forEach(function (obj) {
@@ -276,6 +310,7 @@ catalogCards.appendChild(fragment);
 
 
 // Создаем массив для корзины
+/*
 var ORDER_ITEMS = 3;
 
 var generateOrderObjects = function () {
@@ -285,7 +320,7 @@ var generateOrderObjects = function () {
   }
   return orders;
 };
-
+*/
 // Находим template для корзины
 var orderCardsTemplate = document.querySelector('#card-order').content.querySelector('.goods_card');
 
@@ -310,8 +345,8 @@ var createOrderElement = function (order) {
 };
 
 // Пишем цикл
-var orderCards = document.querySelector('.goods__cards');
 
+/*
 var orders = generateOrderObjects();
 orders.forEach(function (obj) {
   fragment.appendChild(createOrderElement(obj));
@@ -319,18 +354,26 @@ orders.forEach(function (obj) {
 orderCards.appendChild(fragment);
 
 // Удаляем goods__cards--empty и скрываем блок goods__card-empty
-orderCards.classList.remove('goods__cards--empty');
-var emptyOrderCard = document.querySelector('.goods__card-empty');
-emptyOrderCard.classList.add('visually-hidden');
 
-// Добавляем в избранное
+*/
+var orderCards = document.querySelector('.goods__cards');
+var renderOrders = function (orders) {
+ // orderCards.classList.remove('goods__cards--empty');
+  //var emptyOrderCard = document.querySelector('.goods__card-empty');
+  //emptyOrderCard.classList.add('visually-hidden');
+  orderCards.innerHTML = '';
+  var fragment = document.createDocumentFragment();
 
-/* cardBtnFavorite.addEventListener('click', function (event) {
-  event.preventDefault();
-  cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
-}); */
+  orders.forEach(function (obj) {
+    fragment.appendChild(createOrderElement(obj));
+  });
+  orderCards.appendChild(fragment);
+};
 
-// Добавление выбранного товара в корзину и управление товаром в корзине
+
+
+
+
 
 // Переключение вкладок в форме оформления заказа
 
@@ -416,3 +459,26 @@ function rangeMove(evt) {
 
 rangeBtnLeft.addEventListener('mousedown', rangeMove);
 rangeBtnRight.addEventListener('mousedown', rangeMove);
+
+// Валидация форм
+/*
+var textInputs = document.querySelectorAll('.text-input__input');
+var lunaInput = document.querySelector('#payment__card-number');
+
+for (var i = 0; i <= textInputs.length; i++) {
+  var textInput = textInputs[i];
+  textInput.addEventListener('invalid', function (evt) {
+    if (textInput.validity.tooShort) {
+      textInput.setCustomValidity('Вы не указали минимальное количество символов');
+    } else if (textInput.validity.tooLong) {
+      textInput.setCustomValidity('Вы хотите написать слишком много букв');
+    } else if (textInput.validity.valueMissing) {
+      textInput.setCustomValidity('Обязательное поле');
+    } else {
+      textInput.setCustomValidity('');
+    }
+  });
+}
+
+*/
+
