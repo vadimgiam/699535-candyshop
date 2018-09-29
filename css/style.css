@@ -615,6 +615,10 @@ body {
   background-color: #6e58d9;
   transition: background-color 0.2s ease
 }
+.card__btn-favorite--selected{
+  background-color:red;
+  transition: background-color 0.2s ease;
+}
 .card__btn {
   display: flex;
   align-items: center;
@@ -1267,9 +1271,11 @@ body {
 }
 .range__btn--left {
   left: 15%;
+  z-index: 3;
 }
 .range__btn--right {
   right: 15%;
+  z-index: 3;
 }
 .range__fill-line {
   position: absolute;
@@ -1278,6 +1284,7 @@ body {
   right: 15%;
   top: 3px;
   height: 4px;
+  z-index: 2;
 }
 .range__prices {
   display: flex;

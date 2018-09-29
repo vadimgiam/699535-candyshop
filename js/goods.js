@@ -263,34 +263,33 @@ var createСandyCard = function (card) {
 
   cardComposition.textContent = card.nutritionFacts.contents;
 
- // Добавляем в избранное
+  // Добавляем в избранное
 
- cardBtnFavorite.addEventListener('click', function () {
+  cardBtnFavorite.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
 
-  cardBtnFavorite.classList.toggle('card__btn-favorite--selected');
+  });
 
-});
-
-// Добавление выбранного товара в корзину и управление товаром в корзине
-
-var cardBtn = cardElement.querySelector('.card__btn');
-cardBtn.addEventListener('click', function (evt) {
-  evt.preventDefault();
-  var foundOrderIndex = -1;
-  for (var i = 0; i < orderArr.length; i++) {
-    if (orderArr[i].name === card.name) {
-      foundOrderIndex = i;
+  // Добавление выбранного товара в корзину и управление товаром в корзине
+  var cardBtn = cardElement.querySelector('.card__btn');
+  cardBtn.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    var foundOrderIndex = -1;
+    for (var i = 0; i < orderArr.length; i++) {
+      if (orderArr[i].name === card.name) {
+        foundOrderIndex = i;
+      }
     }
-  }
-  if (foundOrderIndex === -1) {
-    var cardCopy = Object.assign({}, card);
-    cardCopy.orderedAmount = 1;
-    orderArr.push(cardCopy);
-  } else if (orderArr[foundOrderIndex].orderedAmount < card.amount) {
-    orderArr[foundOrderIndex].orderedAmount++;
-  }
-  renderOrders(orderArr);
-});
+    if (foundOrderIndex === -1) {
+      var cardCopy = Object.assign({}, card);
+      cardCopy.orderedAmount = 1;
+      orderArr.push(cardCopy);
+    } else if (orderArr[foundOrderIndex].orderedAmount < card.amount) {
+      orderArr[foundOrderIndex].orderedAmount++;
+    }
+    renderOrders(orderArr);
+  });
 
 
   return cardElement;
@@ -358,9 +357,9 @@ orderCards.appendChild(fragment);
 */
 var orderCards = document.querySelector('.goods__cards');
 var renderOrders = function (orders) {
- // orderCards.classList.remove('goods__cards--empty');
-  //var emptyOrderCard = document.querySelector('.goods__card-empty');
-  //emptyOrderCard.classList.add('visually-hidden');
+  // orderCards.classList.remove('goods__cards--empty');
+  // var emptyOrderCard = document.querySelector('.goods__card-empty');
+  // emptyOrderCard.classList.add('visually-hidden');
   orderCards.innerHTML = '';
   var fragment = document.createDocumentFragment();
 
@@ -371,10 +370,6 @@ var renderOrders = function (orders) {
 };
 
 
-
-
-
-
 // Переключение вкладок в форме оформления заказа
 
 var btnPayCard = document.querySelector('#payment__card + .toggle-btn__label');
@@ -382,14 +377,14 @@ var btnPayCash = document.querySelector('#payment__cash + .toggle-btn__label');
 var PayCardWrap = document.querySelector('.payment__card-wrap');
 var PayCashWrap = document.querySelector('.payment__cash-wrap');
 
-btnPayCard.addEventListener('click', function (event) {
-  event.preventDefault();
+btnPayCard.addEventListener('click', function () {
+
   PayCardWrap.classList.remove('visually-hidden');
   PayCashWrap.classList.add('visually-hidden');
 });
 
-btnPayCash.addEventListener('click', function (event) {
-  event.preventDefault();
+btnPayCash.addEventListener('click', function () {
+
   PayCardWrap.classList.add('visually-hidden');
   PayCashWrap.classList.remove('visually-hidden');
 });
@@ -399,14 +394,14 @@ var btnCourier = document.querySelector('#deliver__courier + .toggle-btn__label'
 var PayDeliverWrap = document.querySelector('.deliver__store');
 var PayCourierWrap = document.querySelector('.deliver__courier');
 
-btnDeliver.addEventListener('click', function (event) {
-  event.preventDefault();
+btnDeliver.addEventListener('click', function () {
+
   PayDeliverWrap.classList.remove('visually-hidden');
   PayCourierWrap.classList.add('visually-hidden');
 });
 
-btnCourier.addEventListener('click', function (event) {
-  event.preventDefault();
+btnCourier.addEventListener('click', function () {
+
   PayDeliverWrap.classList.add('visually-hidden');
   PayCourierWrap.classList.remove('visually-hidden');
 });
@@ -419,11 +414,21 @@ var rangeBtn = document.querySelector('.range__btn');
 var range = document.querySelector('.range');
 var rangeMinPrice = range.querySelector('.range__price--min');
 var rangeMaxPrice = range.querySelector('.range__price--max');
+var rangeFilter = range.querySelector('.range__filter');
 
+var buttonLeftOffset = 0;
+var buttonRightOffset = 100;
+rangeBtnLeft.style.left = buttonLeftOffset + 'px';
+rangeBtnRight.style.left = buttonRightOffset + 'px';
+
+var rangeFilterWidth = rangeFilter.offsetWidth;
+var rangeFillLine = range.querySelector('.range__fill-line');
+
+var rangeFillLineWidth = rangeFillLine.offsetWidth;
 
 function rangeMove(evt) {
   evt.preventDefault();
-
+  var moveButton = evt.target;
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
@@ -442,8 +447,22 @@ function rangeMove(evt) {
       y: moveEvt.clientY
     };
 
-    rangeBtn.style.top = (rangeBtn.offsetTop - shift.y) + 'px';
-    rangeBtn.style.left = (rangeBtn.offsetLeft - shift.x) + 'px';
+    // moveEvt.target.style.top = (moveEvt.target.offsetTop - shift.y) + 'px';
+
+    // console.log(moveEvt.target,moveEvt.target.offsetLeft, shift.x);
+    var newX = moveButton.offsetLeft - shift.x;
+
+    if (rangeBtnLeft == moveButton && newX < buttonRightOffset && newX >= 0) {
+      buttonLeftOffset = newX;
+      moveButton.style.left = buttonLeftOffset + 'px';
+
+    } else if (rangeBtnRight == moveButton && newX > buttonLeftOffset && newX <= rangeFilter.offsetWidth) {
+      buttonRightOffset = newX;
+      moveButton.style.left = buttonRightOffset + 'px';
+
+    }
+    rangeFillLine.style.left = buttonLeftOffset / rangeFillLineWidth * 100 + '%';
+    rangeFillLine.style.right = (1 - buttonRightOffset / rangeFillLineWidth) * 100 + '%';
   };
 
   var onMouseUp = function (upEvt) {
@@ -461,9 +480,8 @@ rangeBtnLeft.addEventListener('mousedown', rangeMove);
 rangeBtnRight.addEventListener('mousedown', rangeMove);
 
 // Валидация форм
-/*
+
 var textInputs = document.querySelectorAll('.text-input__input');
-var lunaInput = document.querySelector('#payment__card-number');
 
 for (var i = 0; i <= textInputs.length; i++) {
   var textInput = textInputs[i];
@@ -480,5 +498,46 @@ for (var i = 0; i <= textInputs.length; i++) {
   });
 }
 
-*/
+// Алгоритм Луна
 
+var lunaInput = document.querySelector('#payment__card-number');
+
+lunaInput.value = '1234567890123456';
+function getLuna(str) {
+  str.split('').forEach(function (elem) {
+
+    var sum = 0;
+
+    if (elem % 2 !== 0) {
+      elem *= 2;
+      if (elem >= 10) {
+        elem -= 9;
+      }
+    }
+    sum += elem;
+  });
+
+
+  if (sum % 10 === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+lunaInput.addEventListener('input', function (evt) {
+  var inputStatus = 'Не определен';
+  if (getLuna(evt.currentTarget.value)) {
+    inputStatus = 'Одобрено';
+  }
+  document.querySelector('.payment__card-status').textContent = inputStatus;
+});
+var formSubmitBtn = document.querySelector('.buy__submit-btn');
+
+formSubmitBtn.addEventListener('click', function (evt) {
+  if (formSubmitBtn.checkValidity()) {
+    if (!getLuna(lunaInput.value)) {
+      evt.preventDefault();
+    }
+  }
+});
